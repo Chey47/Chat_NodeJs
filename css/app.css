@@ -1,0 +1,49 @@
+.opacityless{
+	    opacity: 0.1;
+}
+
+.clickab{
+	cursor:pointer;
+}
+
+.chatform{
+	display:block;
+	height: 769px;
+    padding: 15px 250px 15px 250px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    border: 7px solid;
+    line-height: 36px;
+    background-color: rgba(217, 237, 247, 0.53);
+    border-color: #D9EDF7;
+    color: #31708f;
+    z-index: 20;
+}
+
+.chatform p{
+	font-size: 16px;
+}
+
+.fade {
+    transition: 0.5s linear all;
+    opacity: 1;
+}
+.fade.ng-hide {
+    opacity: 0;
+}
+
+.overf{
+    min-height: 550px;
+    max-height: 350px;
+    overflow: scroll;
+}
+.nav-tabs {
+    border-bottom: 1px solid #D9EDF7 !important;
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    border: 1px solid #D9EDF7 !important;
+}

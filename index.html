@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!--[if IE]>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <![endif]-->
+    <title>Node Js Super Chat</title>
+    <!-- BOOTSTRAP CORE STYLE CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet" />
+     <link href="css/app.css" rel="stylesheet" />
+
+</head>
+<body ng-app="myApp" class="ng-cloak" style="font-family:Verdana">
+  <div class="container" ng-controller="UsersController as ctrl">
+  <div class="chatform row fade" ng-show="showchatform">
+  	<div class="col-xs-12 text-center">
+  			<h2>Bienvenue</h3>
+  			<p>Veuillez entrer vos coordonées pour pouvoir utiliser notre super chat</p>
+     <div class="col-xs-6">
+        <div class="panel panel-primary">
+              <div class="panel-heading">Inscription</div>
+              <div class="panel-body">
+                      <div class="alert alert-danger" ng-show="showerrinsc">
+                         <strong>Erreur : </strong> {{errinsc}}
+                      </div>
+                 <form name="inscform" class="form" ng-submit="inscr()">
+                    <div class="form-group">
+                        <label for="exampleInputName1">Pseudo</label>
+                        <input type="text" ng-model="user.pseudo" class="form-control" id="nickname" placeholder="Votre pseudo...">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail2">Email</label>
+                        <input type="email" ng-model="user.mail" class="form-control" id="email" placeholder="Votre adresse mail...">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail3">Mot de passe</label>
+                        <input type="password" ng-model="user.mdp" class="form-control" id="mdp" placeholder="Mot de passe...">
+                    </div>
+                        <input type="submit" value="Je veux Chatter !" class="btn btn-success"/>
+                </form>
+              </div>
+        </div>
+  	</div>
+
+    <div class="col-xs-6">
+            <div class="panel panel-success">
+                      <div class="panel-heading">Connexion</div>
+                      <div class="panel-body">
+                              <div class="alert alert-danger" ng-show="showerrauth">
+                                 <strong>Erreur : </strong> {{errauth}}
+                              </div>
+                          <form name="conform" class="form" ng-submit="auth()">
+                                <div class="form-group">
+                                    <label for="conemail">Email</label>
+                                    <input type="email" ng-model="user.mail" class="form-control" id="conemail" placeholder="Votre adresse mail...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="conpass">Mot de passe</label>
+                                    <input type="password" ng-model="user.mdp" class="form-control" id="conmdp" placeholder="Mot de passe...">
+                                </div>
+                                    <input type="submit" value="Je veux Chatter !" class="btn btn-success"/>
+                          </form>
+                      </div>
+            </div>
+    </div>
+
+  </div>
+</div>
+<div ng-class="chatcont" style="padding-top:40px;">
+    <br /><br />
+    <div class="col-md-8">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+              Conversations <small class="pull-right"> {{user.pseudo}} </small>
+            </div>
+              <ul class="nav nav-tabs" id="myTab">
+            <li ng-click="nullifymode()" class="active"><a data-toggle="tab" href="#publique" style="border-left:none !important;">publique</a></li>
+            <li ng-repeat="u in privateusers" ng-click="setmode(u)"> <a data-toggle="tab" href="#{{u.id}}">{{u.pseudo}}</a> </li>
+            </ul>
+            <div class="panel-body overf" schroll-bottom="publicmsgs">
+
+
+                  <div class="tab-content" id="myTabContent">
+
+                    <div id="publique" class="tab-pane fade active in">
+                        <ul class="media-list">
+                            <li class="media" ng-repeat="pm in publicmsgs">
+
+                                            <div class="media-body">
+
+                                                <div class="media">
+                                                    <a class="pull-left" href="#">
+                                                        <img class="media-object img-circle " ng-src="{{pm.avatar}}" />
+                                                    </a>
+                                                    <div class="media-body" >
+                                                  {{pm.msg}}
+                                                        <br />
+                                                       <small class="text-muted">{{pm.pseudo}} | {{pm.date | date:'Le dd MMMM yyyy à HH:mm'}}</small>
+                                                        <hr />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </li>
+                          </ul>
+                      </div>
+
+                      <div ng-repeat="u in privateusers" id="{{u.id}}" class="tab-pane fade">
+                          <ul class="media-list">
+                        <li class="media" ng-repeat="pm in privatemsgs | filter:byids(u.id,user.id)">
+
+                                        <div class="media-body">
+
+                                            <div class="media">
+                                                <a class="pull-left" href="#">
+                                                    <img class="media-object img-circle " ng-src="{{pm.avatar}}" />
+                                                </a>
+                                                <div class="media-body" >
+                                                  {{pm.msg}}
+                                                    <br />
+                                                    <small class="text-muted">{{pm.pseudo}} | {{pm.date | date:'Le dd MMMM yyyy à HH:mm'}}</small>
+                                                     <hr />
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </li>
+                            </ul>
+                      </div>
+
+
+                  </div>
+
+
+                                </ul>
+            </div>
+            <div class="panel-footer">
+                <form ng-show="!mode" class="form" ng-submit="envoyermsg()">
+                <div class="input-group">
+
+                                    <input type="text" ng-model="msg" class="form-control" placeholder="Votre message..." />
+                                    <span class="input-group-btn">
+                                        <input type="submit" value="Envoyer" class="btn btn-info"/>
+                                    </span>
+                                </div>
+                </form>
+
+                <form ng-show="mode" class="form" ng-submit="envoyerprivatemsg(mode)">
+                <div class="input-group">
+
+                                    <input type="text" ng-model="msg" class="form-control" placeholder="Votre message..." />
+                                    <span class="input-group-btn">
+                                        <input type="submit" value="Envoyer" class="btn btn-info"/>
+                                    </span>
+                                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+               Utilisateurs en ligne
+            </div>
+            <div class="panel-body">
+                <ul ng-repeat="u in users" class="media-list">
+
+                                    <li ng-click="addToPrivate(u)" class="media clickab">
+
+                                        <div class="media-body">
+
+                                            <div class="media">
+                                                <a class="pull-left" href="#">
+                                                    <img class="media-object img-circle" style="max-height:40px;" ng-src="{{u.avatar}}" />
+                                                </a>
+                                                <div class="media-body" >
+                                                    <h5 ng-bind="u.pseudo"></h5>
+
+                                                   <small class="text-muted">
+
+                                                    {{u.time<1 ? "Nouveau" :  u.time+" minutes"}}
+
+                                                   </small>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </li>
+                                </ul>
+                </div>
+            </div>
+
+    </div>
+</div>
+  </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script src="https://code.angularjs.org/1.5.3/angular-animate.min.js"></script>
+<script src="https://code.angularjs.org/1.5.3/i18n/angular-locale_fr-fr.js"></script>
+<script src="http://localhost:1337/socket.io/socket.io.js"></script>
+<script src="js/appjquery.js"></script>
+<script src="js/app.js"></script>
+<script src="js/directives/scrolldown.js"></script>
+<script src="js/controllers/users.js"></script>
+
+</body>
+</html>
