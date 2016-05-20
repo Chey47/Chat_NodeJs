@@ -1,10 +1,10 @@
 # Tp Chat_NodeJs
 
     I - Installation de Node js
-    
-    <p>
+
+
   Pour avoir node js il suffit de se rendre sur https://nodejs.org/en/download/ et télécharger la version correspondante á votre système d'exploitation.
-  </p>
+  <br>
   <p>
   Durant L'installation il faut verifier que l'option "Add to PATH" est bien activé, elle permet d ajouter node.js,npm et les module necessaire aux variable d environnements de votre OS.
   </p>
@@ -18,11 +18,11 @@
   </em>
 
     II - Téléchargement du projet
-    
+
 Il suffit de cliquer sur Download sur la page github du projet : <code> https://github.com/Chey47/Chat_NodeJs </code>   
 
     III - Structure du projet
-    
+
 Le projet se compose des éléments suivants :<br>
 <ul>
 <li> une page index html </li>
@@ -34,31 +34,16 @@ Le projet se compose des éléments suivants :<br>
 </ul>
 
     IV - Lancement du projet
-    
+
 <ul>
 <li> Il faut mettre le projet dans un serveur local ( Wamp - easyPHP - Mamp .... ) , plus précisément dans le dossier www </li>
-<li> Modifier le fichier de configuration de la base de données (includes/configdb.js) en fournissant les coordonnés d'accès à votre base de données </li>
+<li> Modifier le fichier de configuration de la base de données (includes/configdb.js) en fournissant les coordonnés d'accès à votre base de données<br>
+
+var sequelize = new Sequelize('mysql://user:pass@example.com:9821/dbname', {
+  // Look to the next section for possible options
+})
+ </li>
 <li> Créer une base de données selon la configuration du fichier de configuration de la bd</li>
 <li> Se placer avec le terminal de commandes dans le dossier du projet et lancer la commande suivante : <code> node serveur.js</code></li>
-<li> Ouvrir index.html avec votre serveur local </li>
+<li> Ouvrir l'url: http://localhost/Chat_NodeJs-Chat_Complet/index.html  pour acceder a la page</li>
 </ul>  
-
-  
-  
-
-  
-  
-
-
-    
-
-  
-
-  
-  
-
-  
-
-
-      
-      
